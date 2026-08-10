@@ -27,11 +27,14 @@ def send_reminder(self, reminder_id):
     try:
         if reminder.reminder_type == 'email':
             send_email_reminder(reminder)
+            reminder.mark_sent()
+            return f"Reminder {reminder_id} sent successfully"
         elif reminder.reminder_type == 'sms':
-            send_sms_reminder(reminder)
-
-        reminder.mark_sent()
-        return f"Reminder {reminder_id} sent successfully"
+            if not send_sms_reminder(reminder):
+                reminder.mark_failed("SMS sending not configured")
+                return f"Reminder {reminder_id} failed: SMS not configured"
+            reminder.mark_sent()
+            return f"Reminder {reminder_id} sent successfully"
 
     except Exception as exc:
         reminder.mark_failed(str(exc))
@@ -60,8 +63,10 @@ def send_email_reminder(reminder):
 def send_sms_reminder(reminder):
     """
     Send SMS reminder (placeholder for Twilio integration).
+
+    Returns True if SMS was sent, False if not configured.
     """
-    pass
+    return False
 
 
 @shared_task

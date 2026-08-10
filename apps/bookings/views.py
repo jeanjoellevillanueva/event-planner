@@ -183,8 +183,7 @@ class BookingCalendarView(APIView):
                 booking.event_date,
                 booking.event_time or datetime.min.time()
             )
-            start_dt = start_dt.replace(tzinfo=ZoneInfo('UTC'))
-            start_dt = start_dt.astimezone(user_tz)
+            start_dt = start_dt.replace(tzinfo=user_tz)
 
             end_dt = None
             if booking.event_end_time:
@@ -192,8 +191,7 @@ class BookingCalendarView(APIView):
                     booking.event_date,
                     booking.event_end_time
                 )
-                end_dt = end_dt.replace(tzinfo=ZoneInfo('UTC'))
-                end_dt = end_dt.astimezone(user_tz)
+                end_dt = end_dt.replace(tzinfo=user_tz)
 
             event = {
                 'id': booking.id,

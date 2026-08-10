@@ -33,13 +33,13 @@ class BusinessContextMiddleware:
         if request.path.startswith('/api/v1/auth/'):
             return None
 
-        if request.path.startswith('/api/v1/users/me/businesses'):
-            return None
-
-        if request.path.startswith('/api/v1/users/me/switch-business'):
+        if request.path.startswith('/api/v1/users/me'):
             return None
 
         if request.path.startswith('/api/v1/invitations/'):
+            return None
+
+        if request.path == '/api/v1/businesses/' and request.method == 'GET':
             return None
 
         user = request.user

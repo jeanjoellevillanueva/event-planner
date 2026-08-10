@@ -102,9 +102,15 @@ class PackageCreateSerializer(serializers.ModelSerializer):
         Create package with items.
         """
         items_data = validated_data.pop('items', [])
+        business = self.context['request'].user.current_business
         package = super().create(validated_data)
 
         for item_data in items_data:
+            product = item_data.get('product')
+            if product and product.business != business:
+                raise serializers.ValidationError({
+                    'items': f'Product {product.id} does not belong to your business'
+                })
             PackageItem.objects.create(package=package, **item_data)
 
         return package
@@ -114,11 +120,17 @@ class PackageCreateSerializer(serializers.ModelSerializer):
         Update package with items.
         """
         items_data = validated_data.pop('items', None)
+        business = self.context['request'].user.current_business
         package = super().update(instance, validated_data)
 
         if items_data is not None:
             instance.packageitem_set.all().delete()
             for item_data in items_data:
+                product = item_data.get('product')
+                if product and product.business != business:
+                    raise serializers.ValidationError({
+                        'items': f'Product {product.id} does not belong to your business'
+                    })
                 PackageItem.objects.create(package=package, **item_data)
 
         return package

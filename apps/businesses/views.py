@@ -64,7 +64,7 @@ class BusinessDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
 
     serializer_class = BusinessSerializer
-    permission_classes = [IsAuthenticated, IsBusinessMember]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """
@@ -74,15 +74,23 @@ class BusinessDetailView(generics.RetrieveUpdateDestroyAPIView):
             memberships__user=self.request.user
         ).distinct()
 
-    def get_permissions(self):
+    def check_object_permissions(self, request, obj):
         """
-        Set permissions based on request method.
+        Check permissions against the specific business being accessed.
         """
-        if self.request.method in ['PUT', 'PATCH']:
-            return [IsAuthenticated(), IsBusinessAdmin()]
-        if self.request.method == 'DELETE':
-            return [IsAuthenticated(), IsBusinessOwner()]
-        return super().get_permissions()
+        super().check_object_permissions(request, obj)
+
+        membership = request.user.business_memberships.filter(business=obj).first()
+        if not membership:
+            self.permission_denied(request, message="Not a member of this business")
+
+        if request.method in ['PUT', 'PATCH']:
+            if membership.role not in ['owner', 'admin']:
+                self.permission_denied(request, message="Admin access required")
+
+        if request.method == 'DELETE':
+            if membership.role != 'owner':
+                self.permission_denied(request, message="Owner access required")
 
     def destroy(self, request, *args, **kwargs):
         """

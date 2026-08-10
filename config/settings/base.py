@@ -25,8 +25,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django_filters',
+    'django_celery_beat',
     'apps.common',
     'apps.accounts',
     'apps.businesses',
@@ -152,3 +154,5 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@eventplanner.com')
 
 INVITATION_EXPIRY_DAYS = 7
+
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')

@@ -95,7 +95,9 @@ class ReminderCreateSerializer(serializers.ModelSerializer):
                 validated_data['subject'] = subject
                 validated_data['message'] = message
             except ReminderTemplate.DoesNotExist:
-                pass
+                raise serializers.ValidationError({
+                    'template_id': 'Template not found or inactive'
+                })
 
         return super().create(validated_data)
 

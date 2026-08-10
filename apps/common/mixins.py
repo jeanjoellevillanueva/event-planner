@@ -4,6 +4,7 @@ Serializer mixins for Event Planner project.
 
 from rest_framework import serializers
 
+from apps.common.timezone import is_valid_timezone
 from apps.common.timezone import to_user_timezone
 
 
@@ -41,7 +42,8 @@ class TimezoneAwareMixin:
         if hasattr(request, 'query_params'):
             tz_param = request.query_params.get('tz')
             if tz_param:
-                return tz_param
+                if is_valid_timezone(tz_param):
+                    return tz_param
 
         if hasattr(request, 'user') and request.user.is_authenticated:
             return getattr(request.user, 'timezone', 'UTC')

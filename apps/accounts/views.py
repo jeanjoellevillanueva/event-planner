@@ -162,10 +162,15 @@ class InvitationListCreateView(generics.ListCreateAPIView):
         """
         Send invitation email to invitee.
         """
+        from django.conf import settings
+
+        base_url = getattr(settings, 'FRONTEND_URL', 'http://localhost:3000')
+        accept_url = f"{base_url}/invitations/{invitation.token}/"
+
         subject = f"You've been invited to join {invitation.business.name}"
         message = render_to_string('emails/invitation.html', {
             'invitation': invitation,
-            'accept_url': f"/invitations/{invitation.token}/"
+            'accept_url': accept_url
         })
         send_mail(
             subject,
