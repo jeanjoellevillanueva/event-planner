@@ -30,7 +30,7 @@ class TestStoreSwitching:
         response = authenticated_client.get(url)
 
         assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 2
+        assert response.data['count'] == 2
 
     def test_switch_business_success(self, authenticated_client, business_factory):
         """

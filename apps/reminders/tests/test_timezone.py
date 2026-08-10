@@ -95,6 +95,7 @@ class TestReminderAPITimezone:
 
         assert response.status_code == 200
 
-        if response.data:
-            scheduled_at = response.data[0]['scheduled_at']
+        results = response.data.get('results', response.data)
+        if results:
+            scheduled_at = results[0]['scheduled_at']
             assert '+08:00' in scheduled_at
