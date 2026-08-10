@@ -1,0 +1,12 @@
+{
+  "name": "event-planner",
+  "version": "1.0.0",
+  "description": "Event Planner SaaS - Frontend Assets",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch",
+    "build": "npx tailwindcss -i ./static/css/input.css -o ./static/css/output.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

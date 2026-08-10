@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Service Contract</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #0ea5e9;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #0369a1;
+            margin: 0;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0369a1;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .info-item {
+            margin-bottom: 10px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #6b7280;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        .info-value {
+            font-size: 16px;
+        }
+        .amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0369a1;
+        }
+        .signature-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+        .signature-line {
+            border-top: 1px solid #333;
+            padding-top: 10px;
+            text-align: center;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 12px;
+            color: #6b7280;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{business_name}}</h1>
+        <p>Service Contract Agreement</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Client Information</div>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Client Name</div>
+                <div class="info-value">{{client_name}}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Contact Email</div>
+                <div class="info-value">{{client_email}}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Phone</div>
+                <div class="info-value">{{client_phone}}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Address</div>
+                <div class="info-value">{{client_address}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Event Details</div>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Event Date</div>
+                <div class="info-value">{{event_date}}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Event Time</div>
+                <div class="info-value">{{event_time}}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Venue</div>
+                <div class="info-value">{{venue}}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Number of Guests</div>
+                <div class="info-value">{{pax_count}}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Package</div>
+                <div class="info-value">{{package_name}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Payment Details</div>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">Total Amount</div>
+                <div class="amount">₱{{total_amount}}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Deposit Required</div>
+                <div class="info-value">₱{{deposit_amount}}</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Balance Due</div>
+                <div class="info-value">₱{{balance_amount}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Special Requests</div>
+        <p>{{special_requests}}</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Terms and Conditions</div>
+        <ol>
+            <li>A 50% deposit is required to confirm the booking.</li>
+            <li>Full payment is due 7 days before the event date.</li>
+            <li>Cancellations made 30 days before the event will receive a full refund of the deposit.</li>
+            <li>Cancellations made 14-29 days before will receive a 50% refund of the deposit.</li>
+            <li>Cancellations made less than 14 days before the event are non-refundable.</li>
+            <li>Changes to the event details must be communicated at least 7 days in advance.</li>
+            <li>Additional services requested on the event day will be charged separately.</li>
+        </ol>
+    </div>
+
+    <div class="signature-section">
+        <div>
+            <div class="signature-line">
+                Client Signature
+            </div>
+            <p>Date: _______________</p>
+        </div>
+        <div>
+            <div class="signature-line">
+                Authorized Representative
+            </div>
+            <p>Date: _______________</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>{{business_name}} | {{business_email}} | {{business_phone}}</p>
+        <p>{{business_address}}</p>
+    </div>
+</body>
+</html>

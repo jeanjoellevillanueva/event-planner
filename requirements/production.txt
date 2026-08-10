@@ -1,0 +1,4 @@
+-r base.txt
+gunicorn>=21.0
+weasyprint>=61.0
+django-celery-beat>=2.5
