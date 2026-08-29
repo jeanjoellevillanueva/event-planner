@@ -30,8 +30,16 @@ cp .env.example .env
 docker compose up --build
 ```
 
-Web UI: `http://localhost:8000`  
-API: `http://localhost:8000/api/v1/`
+This stack is isolated from other projects:
+
+- Compose project: `event-planner`
+- App: `http://localhost:6000` (container still listens on 8000)
+- Postgres: database `event_planner`, user `event_planner`, host port **6543**
+- Redis: host port **6380**
+- Volume: `event_planner_pgdata`
+
+Web UI: `http://localhost:6000`  
+API: `http://localhost:6000/api/v1/`
 
 Apply schema yourself (agent does not run DB commands):
 
@@ -81,7 +89,7 @@ Set these in your environment (do not commit secrets):
 - `DO_SPACES_KEY`, `DO_SPACES_SECRET`, `DO_SPACES_BUCKET`, `DO_SPACES_ENDPOINT`
 - `EMAIL_*` for SMTP
 - `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM_NUMBER` for SMS
-- `FRONTEND_URL` (invite links; default `http://localhost:8000`)
+- `FRONTEND_URL` (invite links; default `http://localhost:6000`)
 
 WeasyPrint needs Pango (already in `Dockerfile`). SMS is skipped and marked failed when Twilio is unset.
 

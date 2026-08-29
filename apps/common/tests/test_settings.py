@@ -17,7 +17,7 @@ class FrontendSettingsTests(TestCase):
         """
         Invite links should point at the Django UI, not a separate :3000 app.
         """
-        self.assertEqual(settings.FRONTEND_URL, 'http://localhost:8000')
+        self.assertEqual(settings.FRONTEND_URL, 'http://localhost:6000')
 
     def test_readme_documents_production_migrate(self):
         """
@@ -34,6 +34,21 @@ class FrontendSettingsTests(TestCase):
         names = set(settings.CELERY_BEAT_SCHEDULE)
         self.assertIn('process-pending-reminders', names)
         self.assertIn('create-event-reminders', names)
+
+    def test_dev_compose_uses_isolated_ports_and_database(self):
+        """
+        Local Docker should not bind the default 8000/5432/6379 ports.
+        """
+        compose = (Path(__file__).resolve().parents[3] / 'docker-compose.yml').read_text()
+        self.assertIn('name: event-planner', compose)
+        self.assertIn('"6000:8000"', compose)
+        self.assertIn('"6543:5432"', compose)
+        self.assertIn('"6380:6379"', compose)
+        self.assertIn('POSTGRES_DB: event_planner', compose)
+        self.assertIn('event_planner_pgdata', compose)
+        self.assertNotIn('"8000:8000"', compose)
+        self.assertNotIn('"5432:5432"', compose)
+        self.assertNotIn('"6379:6379"', compose)
 
     def test_login_urls_point_at_web_pages(self):
         """
