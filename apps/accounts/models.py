@@ -10,9 +10,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
-from apps.common.timezone import TIMEZONE_CHOICES
-
-
 class User(AbstractUser):
     """
     Custom user model with timezone support and business context.
@@ -20,11 +17,7 @@ class User(AbstractUser):
 
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True)
-    timezone = models.CharField(
-        max_length=50,
-        default='UTC',
-        choices=TIMEZONE_CHOICES,
-    )
+    timezone = models.CharField(max_length=50, default='UTC')
     current_business = models.ForeignKey(
         'businesses.Business',
         on_delete=models.SET_NULL,
