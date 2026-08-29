@@ -6,6 +6,8 @@ from celery import shared_task
 from django.core.mail import send_mail
 from django.utils import timezone
 
+from apps.reminders.sms import send_sms_reminder
+
 
 @shared_task(bind=True, max_retries=3)
 def send_reminder(self, reminder_id):
@@ -37,12 +39,17 @@ def send_reminder(self, reminder_id):
             return f"Reminder {reminder_id} sent successfully"
 
     except Exception as exc:
-        reminder.mark_failed(str(exc))
+        reminder.retry_count += 1
+        reminder.error_message = str(exc)
+        if reminder.retry_count >= 3:
+            reminder.status = 'failed'
+            reminder.save(
+                update_fields=['status', 'error_message', 'retry_count', 'updated_at']
+            )
+            return f"Reminder {reminder_id} failed: {exc}"
 
-        if reminder.retry_count < 3:
-            raise self.retry(exc=exc, countdown=60 * (2 ** reminder.retry_count))
-
-        return f"Reminder {reminder_id} failed: {exc}"
+        reminder.save(update_fields=['error_message', 'retry_count', 'updated_at'])
+        raise self.retry(exc=exc, countdown=60 * (2 ** reminder.retry_count))
 
 
 def send_email_reminder(reminder):
@@ -58,15 +65,6 @@ def send_email_reminder(reminder):
         recipient_list=[reminder.recipient_email],
         fail_silently=False,
     )
-
-
-def send_sms_reminder(reminder):
-    """
-    Send SMS reminder (placeholder for Twilio integration).
-
-    Returns True if SMS was sent, False if not configured.
-    """
-    return False
 
 
 @shared_task

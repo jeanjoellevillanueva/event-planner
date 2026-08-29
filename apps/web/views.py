@@ -474,6 +474,8 @@ def contract_generate(request):
             )
             contract.render_content()
             contract.save(update_fields=['rendered_content'])
+            from apps.contracts.pdf import queue_contract_pdf
+            queue_contract_pdf(contract.id)
             messages.success(request, 'Contract generated.')
             return redirect('web_contract_detail', pk=contract.pk)
     return render(request, 'web/contracts/generate.html', {'form': form})

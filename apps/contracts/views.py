@@ -166,6 +166,9 @@ class ContractGenerateView(APIView):
         contract.render_content()
         contract.save(update_fields=['rendered_content'])
 
+        from apps.contracts.pdf import queue_contract_pdf
+        queue_contract_pdf(contract.id)
+
         return Response({
             'message': 'Contract generated successfully',
             'contract': ContractSerializer(contract, context={'request': request}).data

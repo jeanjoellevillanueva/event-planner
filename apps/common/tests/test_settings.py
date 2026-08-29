@@ -27,6 +27,14 @@ class FrontendSettingsTests(TestCase):
         self.assertIn('docker-compose.prod.yml', readme)
         self.assertIn('manage.py migrate', readme)
 
+    def test_celery_beat_schedules_reminder_tasks(self):
+        """
+        Beat should process due reminders and create event reminders.
+        """
+        names = set(settings.CELERY_BEAT_SCHEDULE)
+        self.assertIn('process-pending-reminders', names)
+        self.assertIn('create-event-reminders', names)
+
     def test_login_urls_point_at_web_pages(self):
         """
         Session login should use the Tailwind login page.
