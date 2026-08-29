@@ -141,7 +141,7 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000,http://127.0.0.1:3000',
+    default='http://localhost:8000,http://127.0.0.1:8000',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
@@ -155,4 +155,8 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@eventplanner.
 
 INVITATION_EXPIRY_DAYS = 7
 
-FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:8000')
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/login/'
