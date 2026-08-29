@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Bookings{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-slate-800">Bookings</h1>
+    <a href="{% url 'web_booking_create' %}" class="btn btn-primary">New booking</a>
+</div>
+<div class="card overflow-x-auto">
+    {% if bookings %}
+        <table class="w-full text-left text-sm">
+            <thead><tr class="text-slate-500"><th class="pb-3">Client</th><th class="pb-3">Date</th><th class="pb-3">Package</th><th class="pb-3">Status</th></tr></thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr class="border-t">
+                        <td class="py-3"><a class="text-primary-700 font-medium" href="{% url 'web_booking_detail' booking.pk %}">{{ booking.client.name }}</a></td>
+                        <td>{{ booking.event_date }} {% if booking.event_time %}{{ booking.event_time }}{% endif %}</td>
+                        <td>{{ booking.package.name|default:"Custom" }}</td>
+                        <td><span class="badge badge-info">{{ booking.status }}</span></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-slate-500">No bookings yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

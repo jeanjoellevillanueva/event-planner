@@ -27,9 +27,9 @@ class FrontendSettingsTests(TestCase):
         self.assertIn('docker-compose.prod.yml', readme)
         self.assertIn('manage.py migrate', readme)
 
-    def test_login_urls_are_configured_for_upcoming_web_pages(self):
+    def test_login_urls_point_at_web_pages(self):
         """
-        Session login settings should match the planned Tailwind routes.
+        Session login should use the Tailwind login page.
         """
         self.assertEqual(settings.LOGIN_URL, '/login/')
         self.assertEqual(settings.LOGIN_REDIRECT_URL, '/dashboard/')

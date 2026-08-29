@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-slate-800">{{ current_business.name }}</h1>
+    <a href="{% url 'web_booking_create' %}" class="btn btn-primary">New booking</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="card"><p class="text-sm text-slate-500">Clients</p><p class="text-2xl font-semibold">{{ stats.total_clients }}</p></div>
+    <div class="card"><p class="text-sm text-slate-500">Bookings</p><p class="text-2xl font-semibold">{{ stats.total_bookings }}</p></div>
+    <div class="card"><p class="text-sm text-slate-500">Upcoming</p><p class="text-2xl font-semibold">{{ stats.upcoming_events }}</p></div>
+    <div class="card"><p class="text-sm text-slate-500">Monthly revenue</p><p class="text-2xl font-semibold">{{ stats.monthly_revenue }}</p></div>
+</div>
+<div class="card">
+    <h2 class="text-lg font-semibold mb-4">Upcoming events</h2>
+    {% if upcoming %}
+        <ul class="divide-y">
+            {% for booking in upcoming %}
+                <li class="py-3 flex justify-between">
+                    <div>
+                        <a href="{% url 'web_booking_detail' booking.pk %}" class="font-medium text-primary-700">{{ booking.client.name }}</a>
+                        <p class="text-sm text-slate-500">{{ booking.event_date }} · {{ booking.venue|default:"No venue" }}</p>
+                    </div>
+                    <span class="badge badge-info">{{ booking.status }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-slate-500">No upcoming events yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

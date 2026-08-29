@@ -150,3 +150,29 @@ class TestContractSignSerializer:
         serializer = ContractSignSerializer(data=data)
         assert not serializer.is_valid()
         assert 'signed_by' in serializer.errors
+
+
+@pytest.mark.django_db
+class TestContractRenderEscape:
+    """
+    Tests that contract placeholders cannot inject HTML.
+    """
+
+    def test_render_content_escapes_client_name(self, booking_factory, business_factory):
+        """
+        Client names should be HTML-escaped in rendered contracts.
+        """
+        business = business_factory()
+        booking = booking_factory(business=business)
+        booking.client.name = '<script>alert(1)</script>'
+        booking.client.save(update_fields=['name'])
+        template = ContractTemplate.objects.create(
+            business=business,
+            name='Safe',
+            content='Hello {{client_name}}',
+            is_default=True,
+        )
+        contract = Contract(booking=booking, template=template)
+        rendered = contract.render_content()
+        assert '<script>' not in rendered
+        assert '&lt;script&gt;alert(1)&lt;/script&gt;' in rendered

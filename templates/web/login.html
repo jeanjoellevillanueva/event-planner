@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto card">
+    <h1 class="text-2xl font-semibold text-slate-800 mb-6">Log in</h1>
+    {% include "web/_form.html" with submit_label="Log in" %}
+    <p class="text-sm text-slate-500 mt-4">No account? <a href="{% url 'web_register' %}" class="text-primary-700">Register</a></p>
+</div>
+{% endblock %}

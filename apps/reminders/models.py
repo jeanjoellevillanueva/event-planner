@@ -2,6 +2,8 @@
 Reminder models for Event Planner project.
 """
 
+import html
+
 from django.db import models
 
 from apps.common.models import BaseModel
@@ -129,7 +131,8 @@ class ReminderTemplate(models.Model):
         subject = self.subject
 
         for key, value in context.items():
-            content = content.replace(f'{{{{{key}}}}}', str(value))
-            subject = subject.replace(f'{{{{{key}}}}}', str(value))
+            escaped = html.escape(str(value))
+            content = content.replace(f'{{{{{key}}}}}', escaped)
+            subject = subject.replace(f'{{{{{key}}}}}', escaped)
 
         return subject, content

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Team{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-slate-800">Team</h1>
+    {% if is_business_admin %}
+        <a href="{% url 'web_team_create' %}" class="btn btn-primary">Add member</a>
+    {% endif %}
+</div>
+<div class="card overflow-x-auto">
+    {% if members %}
+        <table class="w-full text-left text-sm">
+            <thead><tr class="text-slate-500"><th class="pb-3">Name</th><th class="pb-3">Role</th><th class="pb-3">Email</th></tr></thead>
+            <tbody>
+                {% for member in members %}
+                    <tr class="border-t">
+                        <td class="py-3 font-medium">{{ member.name }}</td>
+                        <td>{{ member.role }}</td>
+                        <td>{{ member.email|default:"—" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-slate-500">No team members yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

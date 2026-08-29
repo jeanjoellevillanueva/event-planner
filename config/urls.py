@@ -8,6 +8,7 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('apps.web.urls')),
     path('api/v1/auth/', include('apps.accounts.urls.auth')),
     path('api/v1/users/', include('apps.accounts.urls.users')),
     path('api/v1/invitations/', include('apps.accounts.urls.invitations')),

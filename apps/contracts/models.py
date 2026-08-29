@@ -2,6 +2,8 @@
 Contract models for Event Planner project.
 """
 
+import html
+
 from django.conf import settings
 from django.db import models
 
@@ -115,7 +117,7 @@ class Contract(BaseModel):
 
         content = self.template.content
         for key, value in context.items():
-            content = content.replace(f'{{{{{key}}}}}', str(value))
+            content = content.replace(f'{{{{{key}}}}}', html.escape(str(value)))
 
         self.rendered_content = content
         return content

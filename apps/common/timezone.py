@@ -10,6 +10,21 @@ import zoneinfo
 
 TIMEZONE_CHOICES = [(tz, tz) for tz in sorted(zoneinfo.available_timezones())]
 
+COMMON_TIMEZONE_CHOICES = [
+    ('UTC', 'UTC'),
+    ('Asia/Manila', 'Asia/Manila'),
+    ('Asia/Singapore', 'Asia/Singapore'),
+    ('Asia/Tokyo', 'Asia/Tokyo'),
+    ('Asia/Hong_Kong', 'Asia/Hong Kong'),
+    ('Australia/Sydney', 'Australia/Sydney'),
+    ('Europe/London', 'Europe/London'),
+    ('Europe/Paris', 'Europe/Paris'),
+    ('America/New_York', 'America/New York'),
+    ('America/Chicago', 'America/Chicago'),
+    ('America/Denver', 'America/Denver'),
+    ('America/Los_Angeles', 'America/Los Angeles'),
+]
+
 
 def to_user_timezone(dt, user_tz):
     """

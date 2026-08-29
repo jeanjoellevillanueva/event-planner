@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Reminders{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-slate-800">Reminders</h1>
+    <a href="{% url 'web_reminder_create' %}" class="btn btn-primary">Schedule reminder</a>
+</div>
+<div class="card overflow-x-auto">
+    {% if reminders %}
+        <table class="w-full text-left text-sm">
+            <thead><tr class="text-slate-500"><th class="pb-3">Client</th><th class="pb-3">Type</th><th class="pb-3">Scheduled</th><th class="pb-3">Status</th></tr></thead>
+            <tbody>
+                {% for reminder in reminders %}
+                    <tr class="border-t">
+                        <td class="py-3">{{ reminder.booking.client.name }}</td>
+                        <td>{{ reminder.reminder_type }}</td>
+                        <td>{{ reminder.scheduled_display }}</td>
+                        <td>{{ reminder.status }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-slate-500">No reminders yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

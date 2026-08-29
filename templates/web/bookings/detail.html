@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Booking {{ booking.pk }}{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-slate-800">{{ booking.client.name }}</h1>
+    <span class="badge badge-info">{{ booking.status }}</span>
+</div>
+<div class="grid md:grid-cols-2 gap-6">
+    <div class="card space-y-2">
+        <p><span class="text-slate-500">Date:</span> {{ booking.event_date }} {% if booking.event_time %}{{ booking.event_time }}{% endif %}</p>
+        <p><span class="text-slate-500">Venue:</span> {{ booking.venue|default:"—" }}</p>
+        <p><span class="text-slate-500">Package:</span> {{ booking.package.name|default:"Custom" }}</p>
+        <p><span class="text-slate-500">Pax:</span> {{ booking.pax_count }}</p>
+        <p><span class="text-slate-500">Total:</span> {{ booking.total_amount }}</p>
+        <p><span class="text-slate-500">Balance:</span> {{ booking.balance_amount }}</p>
+    </div>
+    {% if booking.can_reschedule %}
+    <div class="card">
+        <h2 class="text-lg font-semibold mb-4">Reschedule</h2>
+        <form method="post" action="{% url 'web_booking_reschedule' booking.pk %}" class="space-y-4">
+            {% csrf_token %}
+            {% for field in reschedule_form %}
+                <div>
+                    <label class="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Reschedule</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

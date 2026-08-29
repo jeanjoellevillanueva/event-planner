@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Clients{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-slate-800">Clients</h1>
+    <a href="{% url 'web_client_create' %}" class="btn btn-primary">Add client</a>
+</div>
+<div class="card overflow-x-auto">
+    {% if clients %}
+        <table class="w-full text-left text-sm">
+            <thead><tr class="text-slate-500"><th class="pb-3">Name</th><th class="pb-3">Email</th><th class="pb-3">Phone</th><th></th></tr></thead>
+            <tbody>
+                {% for client in clients %}
+                    <tr class="border-t">
+                        <td class="py-3 font-medium">{{ client.name }}</td>
+                        <td>{{ client.email|default:"—" }}</td>
+                        <td>{{ client.phone|default:"—" }}</td>
+                        <td class="text-right">{% if is_business_admin %}<a class="text-primary-700" href="{% url 'web_client_edit' client.pk %}">Edit</a>{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-slate-500">No clients yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

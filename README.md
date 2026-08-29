@@ -2,7 +2,7 @@
 
 Multi-tenant SaaS for event planning, catering, souvenirs, and balloon/backdrop businesses.
 
-Django REST API, Tailwind pages (in progress), PostgreSQL, Redis/Celery, DigitalOcean Spaces.
+Django REST API, Tailwind web UI, PostgreSQL, Redis/Celery, DigitalOcean Spaces.
 
 ## Stack
 
@@ -10,7 +10,7 @@ Django REST API, Tailwind pages (in progress), PostgreSQL, Redis/Celery, Digital
 - Django 6.0.x (`django-celery-beat` does not support Django 6.1 yet)
 - PostgreSQL 15, Redis 7
 - JWT API at `/api/v1/`
-- Session-auth web UI pages are being added next (`/login/`, `/dashboard/`)
+- Session-auth web UI at `/login/`, `/dashboard/`, `/calendar/`
 
 ## Features
 
@@ -30,8 +30,8 @@ cp .env.example .env
 docker compose up --build
 ```
 
-API: `http://localhost:8000/api/v1/`  
-Django admin: `http://localhost:8000/admin/`
+Web UI: `http://localhost:8000`  
+API: `http://localhost:8000/api/v1/`
 
 Apply schema yourself (agent does not run DB commands):
 
@@ -59,7 +59,8 @@ DJANGO_SETTINGS_MODULE=config.settings.test pytest
 
 - Register with email, password, and IANA timezone
 - JWT: `POST /api/v1/auth/login/` and `POST /api/v1/auth/refresh/`
-- Invite accept API: `GET/POST /api/v1/invitations/<token>/`
+- Web login: `/login/`
+- Invite accept: `/invitations/<token>/`
 
 ## Production
 

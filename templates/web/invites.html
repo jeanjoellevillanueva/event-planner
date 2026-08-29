@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Invites{% endblock %}
+{% block content %}
+<div class="grid md:grid-cols-2 gap-6">
+    <div class="card">
+        <h1 class="text-2xl font-semibold text-slate-800 mb-6">Invite teammate</h1>
+        {% include "web/_form.html" with submit_label="Send invite" %}
+    </div>
+    <div class="card">
+        <h2 class="text-lg font-semibold mb-4">Pending and recent</h2>
+        {% if invitations %}
+            <ul class="divide-y text-sm">
+                {% for invitation in invitations %}
+                    <li class="py-3">
+                        <p class="font-medium">{{ invitation.email }}</p>
+                        <p class="text-slate-500">{{ invitation.role }} · {{ invitation.status }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-slate-500">No invitations yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

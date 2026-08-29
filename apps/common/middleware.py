@@ -24,6 +24,9 @@ class BusinessContextMiddleware:
         """
         Validate business access before view execution.
         """
+        if not request.path.startswith('/api/'):
+            return None
+
         if not hasattr(request, 'user') or not request.user.is_authenticated:
             return None
 

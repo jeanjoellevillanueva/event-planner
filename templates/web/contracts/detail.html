@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Contract {{ contract.pk }}{% endblock %}
+{% block content %}
+<div class="card">
+    <h1 class="text-2xl font-semibold text-slate-800 mb-2">Contract for {{ contract.booking.client.name }}</h1>
+    <p class="text-sm text-slate-500 mb-6">Status: {{ contract.status }}</p>
+    <div class="prose max-w-none">{{ contract.rendered_content|safe }}</div>
+</div>
+{% endblock %}

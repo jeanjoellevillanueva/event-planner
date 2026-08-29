@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Packages{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-slate-800">Packages</h1>
+    {% if is_business_admin %}
+        <a href="{% url 'web_package_create' %}" class="btn btn-primary">Add package</a>
+    {% endif %}
+</div>
+<div class="card overflow-x-auto">
+    {% if packages %}
+        <table class="w-full text-left text-sm">
+            <thead><tr class="text-slate-500"><th class="pb-3">Name</th><th class="pb-3">Base price</th><th class="pb-3">Pax</th><th></th></tr></thead>
+            <tbody>
+                {% for package in packages %}
+                    <tr class="border-t">
+                        <td class="py-3 font-medium">{{ package.name }}</td>
+                        <td>{{ package.base_price }}</td>
+                        <td>{{ package.min_pax }}{% if package.max_pax %}–{{ package.max_pax }}{% endif %}</td>
+                        <td class="text-right">{% if is_business_admin %}<a class="text-primary-700" href="{% url 'web_package_edit' package.pk %}">Edit</a>{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-slate-500">No packages yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

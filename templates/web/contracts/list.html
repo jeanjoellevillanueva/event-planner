@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Contracts{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-semibold text-slate-800">Contracts</h1>
+    <div class="flex gap-2">
+        {% if is_business_admin %}
+            <a href="{% url 'web_contract_template_create' %}" class="btn btn-secondary">New template</a>
+            <a href="{% url 'web_contract_generate' %}" class="btn btn-primary">Generate</a>
+        {% endif %}
+    </div>
+</div>
+<div class="card overflow-x-auto">
+    {% if contracts %}
+        <table class="w-full text-left text-sm">
+            <thead><tr class="text-slate-500"><th class="pb-3">Client</th><th class="pb-3">Status</th><th class="pb-3">Created</th></tr></thead>
+            <tbody>
+                {% for contract in contracts %}
+                    <tr class="border-t">
+                        <td class="py-3"><a class="text-primary-700" href="{% url 'web_contract_detail' contract.pk %}">{{ contract.booking.client.name }}</a></td>
+                        <td>{{ contract.status }}</td>
+                        <td>{{ contract.created_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-slate-500">No contracts yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
